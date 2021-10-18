@@ -15,15 +15,66 @@ An in-depth paragraph about your project and overview of use.
 * Go through the prompted steps and reference the ISO image
 * Use "other Linux 5.x or later - x64" as OS selection
 * Continue through the prompted steps and create the VM
+* The finished VM should have about 20 GB of space and at least 2GB of RAM
 * In the VMs files, open the .VMX file and add firmware="efi" (see https://forums.ivanti.com/s/article/How-to-enable-UEFI-in-VMWare-Workstation?language=en_US)
 * Start the VM
 
-### Installing
+## First steps in the Arch Environment
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+### First commands
 
-### Executing program
+* To view different keyboard mappings (default is US, change if needed): 
+ 
+      ls /usr/share/kbd/keymaps/**/*.map.gz
+
+* Check bootmode: 
+        
+        ls /sys/firmware/efi/efivars
+        
+    Notes about bootmode:
+    - If it returns with no errors, then you are in UEFI Mode (which is correct)
+    - If it says the directory doesn't exist, then you booted in BIOS (which means your .VMX file           change wasnt done correctly)
+
+* Check Internet Connection:
+   
+         ping archlinux.org
+    
+    - If the ping works, you are connected
+    - If not, verify wireless connection in iwctl (use "help" command for iwctl commands)
+
+* Check time and date:
+
+    - Set:
+    
+          timedatectl set-ntp true
+     
+    - Check:
+ 
+           timedatectl status
+
+## Partitioning
+
+* list disks (for our purposes, ignore disks ending in rom, loop, or airloop)
+
+         fdisk -l
+         
+* enter disk partitioning tool:
+
+         fdisk /dev/disk_name
+         
+         
+    - Note: During my install, the disk was called /dev/sda. It is likely to be similar if not the               same
+
+   - To create /dev/sda1 partition:
+      - select primary partition type and partition number 1
+      - start of partition: 2048
+      - end of partition: +488281K (this is equivalent to a 500MB partition)
+      - change partition type to UEFI
+   - To create /dev/sda2 partition:
+      - Select primary partition type and partition number 2
+      - Use rest of the disk (so default start and end)
+      - This for the Arch OS itself
+      
 
 * How to run the program
 * Step-by-step bullets
