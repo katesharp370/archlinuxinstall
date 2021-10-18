@@ -8,10 +8,15 @@ An in-depth paragraph about your project and overview of use.
 
 ## Getting Started
 
-### Dependencies
+### Creating the Arch VM
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* Download the Arch ISO file: https://archlinux.org/download/
+* In VMWare Workstation Pro, create a new virtual machine
+* Go through the prompted steps and reference the ISO image
+* Use "other Linux 5.x or later - x64" as OS selection
+* Continue through the prompted steps and create the VM
+* In the VMs files, open the .VMX file and add firmware="efi" (see https://forums.ivanti.com/s/article/How-to-enable-UEFI-in-VMWare-Workstation?language=en_US)
+* Start the VM
 
 ### Installing
 
