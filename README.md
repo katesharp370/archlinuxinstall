@@ -76,43 +76,64 @@ An in-depth paragraph about your project and overview of use.
       - This for the Arch OS itself
       
 
-* How to run the program
-* Step-by-step bullets
+### File System selection
+
+* There are multiple types of file systems, but I went with ext4 (which to my understanding is pretty generic
+* Assign a file system for each partition using:
+
 ```
-code blocks for commands
+mkfs.ext4 /dev/sda1
+```
+```
+mkfs.ext4 /dev/sda2
 ```
 
-## Help
-
-Any advise for common problems or issues.
+* check partitions using:
 ```
-command to run if program contains helper info
+lsblk -f
 ```
 
-## Authors
+### Mounting
+* You have to mount the primary system to the disk (currently it is on the ISO)
+* In this case we will mount the /dev/sda2 to /mnt using:
 
-Contributors names and contact info
+```
+mount /dev/sda2 /mnt
+```
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+## System Installation
+### Install Linux Kernel and Firmware
 
-## Version History
+```
+pacstrap /mnt base linux linux-firmware
+```
+### Generate fstab file 
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
+```
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+* Use the following command to check it for errors:
+```
+nano /mnt/etc/fstab
+```
 
-## License
+### Change root of the system
+```
+arch-chroot /mnt
+```
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+### Verify Time Zone
 
-## Acknowledgments
+* Check system date and time
+```
+timedatectl
+```
 
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+* To change it to central time:
+```
+ln -sf /usr/share/zoneinfo/America/Central /etc/localtime
+```
+* Generate /etc/adjtime (assumes hardware clock is set to UTC)
+```
+hwclock --systohc 
+```
