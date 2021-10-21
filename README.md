@@ -137,3 +137,52 @@ ln -sf /usr/share/zoneinfo/America/Central /etc/localtime
 ```
 hwclock --systohc 
 ```
+
+### Localization
+* instal nano 
+```
+pacman -S nano
+```
+* edit /etc/locale.gen file and uncomment en_US.UTF-8 UTF-8
+```
+nano /etc/locale.gen
+```
+* generate locales
+```
+locale-gen
+```
+* create /etc/locale.conf file and add LANG=en_US.UTF-8
+```
+nano /etc/locale.conf
+```
+
+## Network Configuration
+* create /etc/hostname and add a hostname
+```
+nano /etc/hostname
+```
+* edit /etc/hosts
+```
+nano /etc/hosts
+``` 
+add 
+```
+127.0.0.1 localhost
+::1 localhost
+127.0.1.1 yourhostname
+```
+* install net tools
+```
+pacman -S net-tools
+```
+
+## Random tidbits
+* change root password
+```
+passwd
+```
+* Install a bootloader (I used grub)
+```
+pacman -S grub
+```
+
