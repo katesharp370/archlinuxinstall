@@ -65,13 +65,14 @@ An in-depth paragraph about your project and overview of use.
       - type the letter 'n' to create new partiiton
       - select primary partition type and partition number 1
       - start of partition: 2048
-      - end of partition: +512M 
-      - change partition type to "EFI FAT32" ("ef" is the key)
+      - end of partition: +512M
+      - type t to change partition type 
+      - change partition type to "EFI FAT-12/16/32" ("ef" is the key)
    - To create /dev/sda2 partition:
       - Select primary partition type and partition number 2
       - Use rest of the disk (so default start and end)
       - This for the Arch OS itself
-      
+   - type w to write the changes
 
 ### File System selection
 
