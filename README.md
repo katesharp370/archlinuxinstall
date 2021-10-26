@@ -23,10 +23,6 @@ An in-depth paragraph about your project and overview of use.
 
 ### First commands
 
-* To view different keyboard mappings (default is US, change if needed): 
- 
-      ls /usr/share/kbd/keymaps/**/*.map.gz
-
 * Check bootmode: 
         
         ls /sys/firmware/efi/efivars
@@ -60,16 +56,17 @@ An in-depth paragraph about your project and overview of use.
          
 * enter disk partitioning tool:
 
-         fdisk /dev/disk_name
+         fdisk /dev/sda
          
          
-    - Note: During my install, the disk was called /dev/sda. It is likely to be similar if not the               same
+    - Note: During my install, the disk was called /dev/sda. It is likely to be the same.
 
    - To create /dev/sda1 partition:
+      - type the letter 'n' to create new partiiton
       - select primary partition type and partition number 1
       - start of partition: 2048
-      - end of partition: +488281K (this is equivalent to a 500MB partition)
-      - change partition type to UEFI
+      - end of partition: +512M 
+      - change partition type to "EFI FAT32" ("ef" is the key)
    - To create /dev/sda2 partition:
       - Select primary partition type and partition number 2
       - Use rest of the disk (so default start and end)
@@ -78,11 +75,11 @@ An in-depth paragraph about your project and overview of use.
 
 ### File System selection
 
-* There are multiple types of file systems, but I went with ext4 (which to my understanding is pretty generic
+* There are multiple types of file systems, but I went with FAT32 for sda1 and ext4 for sda2 (which to my understanding is pretty generic
 * Assign a file system for each partition using:
 
 ```
-mkfs.ext4 /dev/sda1
+mkfs.fat -F32 /dev/sda1
 ```
 ```
 mkfs.ext4 /dev/sda2
@@ -103,9 +100,9 @@ mount /dev/sda2 /mnt
 
 ## System Installation
 ### Install Linux Kernel and Firmware
-
+(this also installs nano and vim)
 ```
-pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base linux linux-firmware nano vim
 ```
 ### Generate fstab file 
 
@@ -139,10 +136,6 @@ hwclock --systohc
 ```
 
 ### Localization
-* instal nano 
-```
-pacman -S nano
-```
 * edit /etc/locale.gen file and uncomment en_US.UTF-8 UTF-8
 ```
 nano /etc/locale.gen
@@ -153,7 +146,8 @@ locale-gen
 ```
 * create /etc/locale.conf file and add LANG=en_US.UTF-8
 ```
-nano /etc/locale.conf
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+export LANG=en_US.UTF-8
 ```
 
 ## Network Configuration
@@ -176,13 +170,29 @@ add
 pacman -S net-tools
 ```
 
-## Random tidbits
+## Random tidbits and bootloader install
 * change root password
 ```
 passwd
 ```
-* Install a bootloader (I used grub)
+* Download a bootloader (I used grub)
 ```
-pacman -S grub
+pacman -S grub efibootmgr
 ```
+* make directory where EFI partition will be mounted
+```
+mkdir /boot/efi
+```
+* mount sda1 to the boot directory
+```
+mount/dev/sda1 /boot/efi
+```
+* install grub
+```
+grub-install --target=x86)64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
+```
+```
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
 
