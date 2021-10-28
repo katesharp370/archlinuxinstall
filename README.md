@@ -195,5 +195,46 @@ grub-install --target=x86)64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
 ```
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
+## Install Desktop Environment
+* install the display server
+```
+pacman -S xorg
+```
+* install the GNOME environment
+```
+pacman -S gnome
+```
+* install network manager
+```
+pacman -S wpa_supplicant wireless_tools networkmanager
+```
+* Run the next few commands to enable/disable/start services
+```
+systemctl start gdm.service
+systemctl enable gdm.service
+systemctl enable NetworkManager.service
+systemctl disable dhcpcd.service
+systemctl enable wpa_supplicant.service
+systemctl start NetworkManager.service
+```
+* Exit chroot
+```
+exit
+```
+* Shutdown the system and remove the iso. It should boot into GNOME.
+
+# Problems I encountered
+* Over the course of this install, I had MANY issues. Between trying to decipher the installation guide and my own inexperience with Linux, I struggled in some areas. 
+### Disk Partitions and File System Types
+* I got to the point of installing the bootloader when I found out I did not partition my file system correctly.
+* After some research, I found out it was because my EFI partition was set to the wrong type
+* I had set it as the alias "efi" but I did not actually select the "EFI" type that I needed for the bootloader installation
+* After figuring that out, I also found that I needed to format the /dev/sda1 as a FAT-32 file system instead of EXT4
+
+
+# Sources
+* https://wiki.archlinux.org/title/installation_guide
+* https://itsfoss.com/install-arch-linux/
+* https://linuxhint.com/arch_linux_network_manager/
 
 
