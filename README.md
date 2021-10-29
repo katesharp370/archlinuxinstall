@@ -171,7 +171,7 @@ add
 pacman -S net-tools
 ```
 
-## Random tidbits and bootloader install
+## Random steps and bootloader install
 * change root password
 ```
 passwd
@@ -223,6 +223,31 @@ exit
 ```
 * Shutdown the system and remove the iso. It should boot into GNOME.
 
+# My customizations
+* Installed important things like sudo, openssh, zsh
+        * sudo:
+        ```
+        pacman -S sudo
+        ```
+        * openssh:
+        ```
+        pacman -Sy openssh
+        ```
+        * zsh:
+        ```
+        sudo pacman -S zsh
+        ```
+* Created users using "useradd" and set passwords
+* To force users to change password on the next login, I used:
+```
+passwd --expire "name"
+```
+* The aliases I created were:
+```
+alias c=clear
+alias meminfo='free -m -l -t'
+alias ports='netstat -tulanp'
+```
 # Problems I encountered
 * Over the course of this install, I had MANY issues. Between trying to decipher the installation guide and my own inexperience with Linux, I struggled in some areas. 
 ### Disk Partitions and File System Types
