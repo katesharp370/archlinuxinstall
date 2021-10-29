@@ -1,11 +1,5 @@
 # Arch Linux Install
 
-Simple overview of use/purpose.
-
-## Description
-
-An in-depth paragraph about your project and overview of use.
-
 ## Getting Started
 
 ### Creating the Arch VM
@@ -255,7 +249,15 @@ alias ports='netstat -tulanp'
 * After some research, I found out it was because my EFI partition was set to the wrong type
 * I had set it as the alias "efi" but I did not actually select the "EFI" type that I needed for the bootloader installation
 * After figuring that out, I also found that I needed to format the /dev/sda1 as a FAT-32 file system instead of EXT4
+* I found that this was the root issue to all of my problems regarding the bootloaderand almost anything else regarding this install
 
+## Installing packages
+* MY GOODNESS THIS PART WAS INFURIATING
+* I found two packages I wanted to install: google-chrome and minecraft
+* As I was trying to run "makepkg -si" I kept getting errors whether I sudoed the command or not
+* I found out that the problems were caused by the fact that I sudoed the git clone of the packages
+* I also found out I made my user without a home directory
+* I had to revert to a snapshot and recreate the user with a home directory and sudo privileges to then install git, run the git clone WITHOUT SUDO and install the package
 
 # Sources
 * https://wiki.archlinux.org/title/installation_guide
